@@ -1,5 +1,5 @@
 # GCPNet
-
+在4090服务器训练gcpnet并且用optuna寻找最优超参
 Github repository for our paper - **"GCPNet: An Interpretable Generic Crystal Pattern Graph Neural Network for Predicting Material Properties."**
 
 # Table of Contents
