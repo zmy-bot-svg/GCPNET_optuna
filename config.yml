@@ -1,0 +1,68 @@
+project_name: "GCPNet_4090_hyperopt"
+net: "GCPNet"
+output_dir: "./output_4090"
+self_loop: True
+n_neighbors: 12
+debug: False
+
+netAttributes:
+  firstUpdateLayers: 4
+  secondUpdateLayers: 4
+  atom_input_features: 105
+  edge_input_features: 50
+  triplet_input_features: 40
+  embedding_features: 64
+  hidden_features: 128
+  output_features: 1
+  min_edge_distance: 0.0
+  max_edge_distance: 8.0
+  link: "identity"
+  batch_size: 128                      # 4090显存大，可以用更大的batch_size
+  num_workers: 4                       # 4090服务器CPU核心多，可以增加num_workers
+  dropout_rate: 0.1
+
+hyperParameters:
+  lr: 0.001
+  optimizer: "AdamW"
+  optimizer_args:
+    weight_decay: 5.0e-5
+  scheduler: "ReduceLROnPlateau"
+  scheduler_args:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6
+    threshold: 0.0002
+  seed: 666
+  epochs: 100
+  patience: 25                         # 4090快，可以稍微降低patience
+
+data:
+  points: all
+  dataset_path: './data'
+  dataset_name: 'jarvis_fe_15k'
+  target_name: 'formation_energy_peratom'
+  pin_memory: True
+  num_folds: 5
+
+predict:
+  model_path: 'model.pt'
+  output_path: 'output.csv'
+
+visualize_args:
+  perplexity: 50
+  early_exaggeration: 12
+  learning_rate: 300
+  n_iter: 5000
+  verbose: 1
+  random_state: 42
+
+# Optuna 超参数搜索配置
+optuna:
+  n_trials: 50                         # 4090快，可以搜索更多次
+  study_name: "GCPNet_4090_hyperopt"
+  
+wandb:
+  log_enable: False
+  sweep_count: 50                      # 50次试验
+  entity: "1548532425-null"

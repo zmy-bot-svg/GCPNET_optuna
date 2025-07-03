@@ -1,0 +1,98 @@
+project_name: "GCPNet_base_tuning"      # 建议为新实验起一个明确的名字
+net: "GCPNet"
+output_dir: "./output_base"
+self_loop: True
+n_neighbors: 12
+debug: False
+
+netAttributes:
+  firstUpdateLayers: 4
+  secondUpdateLayers: 4
+  atom_input_features: 105
+  edge_input_features: 50
+  triplet_input_features: 40
+  embedding_features: 64
+  hidden_features: 128                  # <-- 修改点1：增加模型宽度。32维可能太窄，难以学习复杂关系，适当加宽并配合正则化效果更好。
+  output_features: 1
+  min_edge_distance: 0.0
+  max_edge_distance: 8.0
+  link: "identity"
+  batch_size: 64
+  num_workers: 0
+  dropout_rate: 0.1                     # <-- 修改点2：启用Dropout。从0.0增加到0.1，这是抑制过拟合最直接的手段。
+
+hyperParameters:
+  lr: 0.001
+  optimizer: "AdamW"
+  optimizer_args:
+    weight_decay: 5.0e-5                # <-- 修改点3：增加权重衰减。从1e-5增加到5e-5，提供更强的L2正则化。
+  scheduler: "ReduceLROnPlateau"
+  scheduler_args:
+    mode: "min"
+    factor: 0.5                         # <-- 修改点4：增强学习率衰减。从0.8改为0.5，让学习率下降更显著，有助于跳出局部最优。
+    patience: 10
+    min_lr: 1.0e-6
+    threshold: 0.0002
+  seed: 666
+  epochs: 100
+  patience: 30                          # <-- 修改点5：降低早停耐心值。从50降到30，避免在无效训练上浪费过多时间。
+
+data:
+  points: all                            # points for the dataset: support "all", and a number smaller than the #. of data points
+  dataset_path: './data'                 # path for all datasets
+  dataset_name: 'jarvis_fe_15k'                     # name of the dataset, support '2d','cubic', 'mp18','pt', 'mof' etc. 
+  # target_index: 2
+  target_name: 'formation_energy_peratom'                # name of the target, support 'property', 'formation_energy_per_atom'
+  pin_memory: True                       # whether to pin memory for data loading
+  num_folds: 5                           # #. of folds for cross validation
+predict:
+  model_path: 'model.pt'                 # path for the model
+  output_path: 'output.csv'              # path for the predict output
+
+visualize_args:
+  perplexity: 50                         # perplexity for t-SNE
+  early_exaggeration: 12                 # early_exaggeration for t-SNE
+  learning_rate: 300                     # learning_rate for t-SNE
+  n_iter: 5000                           # #.of iterations run for t-SNE
+  verbose: 1                             # Verbosity level. for t-SNE,support 0,1,2
+  random_state: 42                       # random_state for t-SNE
+
+wandb:
+  log_enable: True                       # whether to enable wandb, support True, False
+  sweep_count: 5                          # integer value to the count parameter to set the maximum number of runs to try.
+  entity: "1548532425-null"                    # entity name for wandb,see https://docs.wandb.ai/guides/sweeps/start-sweep-agents
+  sweep_args:                            # sweep arguments
+    method: bayes
+    metric:          # <-- 优化点5：明确指定优化目标
+      name: best_val_mae
+      goal: minimize
+    parameters:
+      # --- 学习策略参数 ---
+      lr: 
+        distribution: log_uniform_values
+        min: 0.0002   # <-- 优化点6：根据已有经验，聚焦在高价值的学习率区间
+        max: 0.0015
+
+      # --- 正则化参数 ---
+      dropout_rate: 
+        distribution: uniform
+        min: 0.05     # <-- 优化点7：聚焦在高价值的dropout区间
+        max: 0.3
+
+      weight_decay:
+        distribution: log_uniform_values
+        min: 1.0e-5   # <-- 优化点8：聚焦在高价值的weight_decay区间
+        max: 5.0e-4
+
+      # --- 模型复杂度参数 ---
+      firstUpdateLayers:
+        distribution: categorical
+        values: [3, 4, 5]
+
+      secondUpdateLayers:
+        distribution: categorical
+        values: [3, 4, 5]
+
+      hidden_features:
+        distribution: categorical
+        values: [96, 128] # <-- 优化点9：主要探索性能更好的高宽度模型
