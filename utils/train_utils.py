@@ -444,210 +444,136 @@ class KerasModel(torch.nn.Module):
             self.net = torch.load(ckpt_path, weights_only=False)
             return dfhistory
 
+    @torch.no_grad()
+    def evaluate(self, val_data):
+        accelerator = Accelerator()
+        self.net, self.loss_fn, self.metrics_dict = accelerator.prepare(
+            self.net, self.loss_fn, self.metrics_dict)
+        val_data = accelerator.prepare(val_data)
         
-        # 模型评估方法，用于在验证集上评估模型性能
-        @torch.no_grad()  # 装饰器，确保下面的代码都不计算梯度
-        def evaluate(self, val_data):
-            # 如果前面没有@torch.no_grad()，则这里需要加入一个with torch.no_grad():
-            # 创建新的accelerator实例
-            accelerator = Accelerator()
-            # 准备模型组件
-            self.net,self.loss_fn,self.metrics_dict = accelerator.prepare(self.net,self.loss_fn,self.metrics_dict)
-            # 准备验证数据
-            val_data = accelerator.prepare(val_data)
-            # 创建验证步骤运行器
-            val_step_runner = self.StepRunner(net = self.net,stage="val",
-                        loss_fn = self.loss_fn,metrics_dict=deepcopy(self.metrics_dict),
-                        accelerator = accelerator)
-            # 创建验证epoch运行器
-            val_epoch_runner = self.EpochRunner(val_step_runner)
-            # 执行验证并返回结果
-            val_metrics = val_epoch_runner(val_data)
-            return val_metrics
+        val_step_runner = self.StepRunner(
+            net=self.net, stage="val",
+            loss_fn=self.loss_fn, 
+            metrics_dict=deepcopy(self.metrics_dict),
+            accelerator=accelerator
+        )
         
-        # 模型预测方法，用于在测试集上进行预测
-        @torch.no_grad()  # 装饰器，确保不计算梯度
-        def predict(self, test_data,ckpt_path, test_out_path='test_out.csv'):
-            # 保存检查点路径
-            self.ckpt_path = ckpt_path
-            # 加载模型权重
-            self.load_ckpt(self.ckpt_path)
-            # 设置模型为评估模式
-            self.net.eval()
-            # 初始化结果存储列表
-            targets = []   # 真实标签
-            outputs = []   # 模型预测值
-            id = []        # 样本ID
-            
-            # 遍历测试数据
-            for data in test_data:
-                with torch.no_grad():
-                    # 将数据移动到GPU
-                    data = data.to(torch.device('cuda'))
-                    # 收集真实标签
-                    targets.append(data.y.cpu().numpy().tolist())
-                    # 进行预测
-                    output = self.net(data)
-                    # 收集预测结果
-                    outputs.append(output.cpu().numpy().tolist())
-                    # 收集样本ID
-                    id += data.structure_id
-            
-            # 将嵌套列表展平
-            targets = sum(targets, [])
-            outputs = sum(outputs, [])
-            id = sum(sum(id, []),[])
-            
-            # 导入CSV写入模块
-            import csv
-            # 组合数据行
-            rows = zip(
-                id,
-                targets,
-                outputs
-            )
-            # 写入CSV文件
-            with open(test_out_path, "w") as csv_file:
-                writer = csv.writer(csv_file, delimiter=",")
-                for row in rows:
-                    writer.writerow(row)
+        val_epoch_runner = self.EpochRunner(val_step_runner)
+        val_metrics = val_epoch_runner(val_data)
+        return val_metrics
+        
+    @torch.no_grad()
+    def predict(self, test_data, ckpt_path, test_out_path='test_out.csv'):
+        self.ckpt_path = ckpt_path
+        self.load_ckpt(self.ckpt_path)
+        self.net.eval()
+        
+        targets = []
+        outputs = []
+        id = []
+        
+        for data in test_data:
+            data = data.to(torch.device('cuda'))
+            targets.append(data.y.cpu().numpy().tolist())
+            output = self.net(data)
+            outputs.append(output.cpu().numpy().tolist())
+            id += data.structure_id
+        
+        targets = sum(targets, [])
+        outputs = sum(outputs, [])
+        id = sum(sum(id, []), [])
+        
+        import csv
+        rows = zip(id, targets, outputs)
+        with open(test_out_path, "w") as csv_file:
+            writer = csv.writer(csv_file, delimiter=",")
+            for row in rows:
+                writer.writerow(row)
 
-        # cubic方法，与predict方法相同，仅默认输出文件名有区别，可能用于特定数据集
-        @torch.no_grad()  # 装饰器，确保不计算梯度
-        def cubic(self, test_data,ckpt_path, test_out_path='cubic_out.csv'):
-            # 保存检查点路径
-            self.ckpt_path = ckpt_path
-            # 加载模型权重
-            self.load_ckpt(self.ckpt_path)
-            # 设置模型为评估模式
-            self.net.eval()
-            # 初始化结果存储列表
-            targets = []   # 真实标签
-            outputs = []   # 模型预测值
-            id = []        # 样本ID
-            
-            # 遍历测试数据
-            for data in test_data:
-                with torch.no_grad():
-                    # 将数据移动到GPU
-                    data = data.to(torch.device('cuda'))
-                    # 收集真实标签
-                    targets.append(data.y.cpu().numpy().tolist())
-                    # 进行预测
-                    output = self.net(data)
-                    # 收集预测结果
-                    outputs.append(output.cpu().numpy().tolist())
-                    # 收集样本ID
-                    id += data.structure_id
-            
-            # 将嵌套列表展平
-            targets = sum(targets, [])
-            outputs = sum(outputs, [])
-            id = sum(sum(id, []),[])
-            
-            # 导入CSV写入模块
-            import csv
-            # 组合数据行
-            rows = zip(
-                id,
-                targets,
-                outputs
-            )
-            # 写入CSV文件
-            with open(test_out_path, "w") as csv_file:
-                writer = csv.writer(csv_file, delimiter=",")
-                for row in rows:
-                    writer.writerow(row)
+    @torch.no_grad()
+    def cubic(self, test_data, ckpt_path, test_out_path='cubic_out.csv'):
+        self.ckpt_path = ckpt_path
+        self.load_ckpt(self.ckpt_path)
+        self.net.eval()
+        
+        targets = []
+        outputs = []
+        id = []
+        
+        for data in test_data:
+            data = data.to(torch.device('cuda'))
+            targets.append(data.y.cpu().numpy().tolist())
+            output = self.net(data)
+            outputs.append(output.cpu().numpy().tolist())
+            id += data.structure_id
+        
+        targets = sum(targets, [])
+        outputs = sum(outputs, [])
+        id = sum(sum(id, []), [])
+        
+        import csv
+        rows = zip(id, targets, outputs)
+        with open(test_out_path, "w") as csv_file:
+            writer = csv.writer(csv_file, delimiter=",")
+            for row in rows:
+                writer.writerow(row)
 
-        # 分析方法，使用t-SNE对训练好的模型特征进行可视化分析
-        @torch.no_grad()  # 装饰器，确保不计算梯度
-        def analysis(self, net_name,test_data, ckpt_path, tsne_args,tsne_file_path="tsne_output.png"):
-            '''
-            从训练好的模型中获取图特征并使用t-SNE进行分析
-            '''
-            # 导入必要的分析库
-            from sklearn.decomposition import PCA      # 主成分分析
-            from sklearn.manifold import TSNE         # t-SNE降维
-            import matplotlib.pyplot as plt           # 绘图库
-            
-            # 初始化输入特征存储列表
-            inputs = []
-            # 定义钩子函数，用于捕获中间层的输入
-            def hook(module, input, output):
-                inputs.append(input)
+    @torch.no_grad()
+    def analysis(self, net_name, test_data, ckpt_path, tsne_args, tsne_file_path="tsne_output.png"):
+        from sklearn.decomposition import PCA
+        from sklearn.manifold import TSNE
+        import matplotlib.pyplot as plt
+        
+        inputs = []
+        def hook(module, input, output):
+            inputs.append(input)
 
-            # 保存检查点路径并加载模型
-            self.ckpt_path = ckpt_path
-            self.load_ckpt(self.ckpt_path)
-            # 设置模型为评估模式
-            self.net.eval()
-            
-            # 根据网络名称注册前向钩子，捕获第一个线性层的输入
-            if net_name in [ "ALIGNN","CLIGNN", "GCPNet"]:
-                # 对于这些网络，钩子注册到fc层
-                # fc层的输入是整个网络提取的最终特征
-                self.net.fc.register_forward_hook(hook)
-            else:
-                # 对于其他网络，钩子注册到post_lin_list的第一层
-                # post_lin_list[0]的输入是特征提取器的输出
-                self.net.post_lin_list[0].register_forward_hook(hook)
+        self.ckpt_path = ckpt_path
+        self.load_ckpt(self.ckpt_path)
+        self.net.eval()
+        
+        if net_name in ["ALIGNN", "CLIGNN", "GCPNet"]:
+            self.net.fc.register_forward_hook(hook)
+        else:
+            self.net.post_lin_list[0].register_forward_hook(hook)
 
-            # 初始化目标值存储列表（仅适用于单索引目标）
-            targets = []
-            # 遍历测试数据
-            for data in test_data:
-                with torch.no_grad():
-                    # 将数据移动到GPU
-                    data = data.to(torch.device('cuda'))
-                    # 收集目标值
-                    targets.append(data.y.cpu().numpy().tolist())
-                    # 进行前向传播（触发钩子函数）
-                    _ = self.net(data)
+        targets = []
+        for data in test_data:
+            data = data.to(torch.device('cuda'))
+            targets.append(data.y.cpu().numpy().tolist())
+            _ = self.net(data)
 
-            # 处理收集到的数据
-            targets = sum(targets, [])                    # 展平目标值列表
-            inputs = [i for sub in inputs for i in sub]   # 展平输入特征列表
-            inputs = torch.cat(inputs)                    # 连接所有输入张量
-            inputs = inputs.cpu().numpy()                 # 转换为numpy数组
-            
-            # 打印数据信息
-            print("Number of samples: ", inputs.shape[0])
-            print("Number of features: ", inputs.shape[1])
+        targets = sum(targets, [])
+        inputs = [i for sub in inputs for i in sub]
+        inputs = torch.cat(inputs)
+        inputs = inputs.cpu().numpy()
+        
+        print("Number of samples: ", inputs.shape[0])
+        print("Number of features: ", inputs.shape[1])
 
-            # 开始t-SNE分析
-            # 使用传入的参数创建t-SNE对象
-            tsne = TSNE(**tsne_args)
-            # 执行t-SNE降维
-            tsne_out = tsne.fit_transform(inputs)
+        tsne = TSNE(**tsne_args)
+        tsne_out = tsne.fit_transform(inputs)
 
-            # 创建散点图进行可视化
-            fig, ax = plt.subplots()
-            # 绘制散点图，颜色映射到目标值
-            main = plt.scatter(tsne_out[:, 1], tsne_out[:, 0], c=targets, s=3,cmap='coolwarm')
-            # 移除坐标轴标签和刻度
-            ax.set_xticklabels([])
-            ax.set_yticklabels([])
-            ax.set_xticks([])
-            ax.set_yticks([])
-            # 添加颜色条
-            cbar = plt.colorbar(main, ax=ax)
-            # 计算标准差用于设置颜色范围
-            stdev = np.std(targets)
-            # 设置颜色条的范围为均值±2倍标准差
-            cbar.mappable.set_clim(
-                np.mean(targets) - 2 * np.std(targets), np.mean(targets) + 2 * np.std(targets)
-            )
-            # 保存图片
-            plt.savefig(tsne_file_path, format="png", dpi=600)
-            # 显示图片
-            plt.show()
+        fig, ax = plt.subplots()
+        main = plt.scatter(tsne_out[:, 1], tsne_out[:, 0], c=targets, s=3, cmap='coolwarm')
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.set_xticks([])
+        ax.set_yticks([])
+        cbar = plt.colorbar(main, ax=ax)
+        import numpy as np
+        stdev = np.std(targets)
+        cbar.mappable.set_clim(
+            np.mean(targets) - 2 * np.std(targets), 
+            np.mean(targets) + 2 * np.std(targets)
+        )
+        plt.savefig(tsne_file_path, format="png", dpi=600)
+        plt.show()
 
-        # 返回模型总参数数量的方法
-        def total_params(self):
-            return self.net.total_params()
+    def total_params(self):
+        return self.net.total_params()
 
 
-# 学习率调度器包装类，封装PyTorch的学习率调度器
 class LRScheduler:
     """PyTorch学习率调度器的包装类"""
 

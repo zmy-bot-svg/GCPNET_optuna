@@ -78,7 +78,7 @@ def run_check():
                 torch.serialization.add_safe_globals(list(required_classes.values()))
             
             torch.save(net, temp_file)
-            _ = torch.load(temp_file)
+            _ = torch.load(temp_file, weights_only=False)
             
             print(f"   ✅ 在第 {i+1} 次尝试时成功加载！")
             break

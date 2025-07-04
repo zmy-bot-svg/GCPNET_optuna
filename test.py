@@ -34,7 +34,7 @@ def fix_repeated_weights_only(file_path):
         original_content = content
         
         # 修复重复的weights_only参数
-        # 匹配: weights_only=False, weights_only=False
+        # 匹配: weights_only=False
         content = re.sub(
             r',\s*weights_only=False,\s*weights_only=False',
             ', weights_only=False',

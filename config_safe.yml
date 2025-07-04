@@ -1,0 +1,60 @@
+data:
+  dataset_name: jarvis_fe_15k
+  dataset_path: ./data
+  num_folds: 5
+  pin_memory: true
+  points: all
+  target_name: formation_energy_peratom
+debug: false
+hyperParameters:
+  epochs: 1
+  lr: 0.001
+  optimizer: AdamW
+  optimizer_args:
+    weight_decay: 5.0e-05
+  patience: 25
+  scheduler: ReduceLROnPlateau
+  scheduler_args:
+    factor: 0.5
+    min_lr: 1.0e-06
+    mode: min
+    patience: 10
+    threshold: 0.0002
+  seed: 666
+n_neighbors: 12
+net: GCPNet
+netAttributes:
+  atom_input_features: 105
+  batch_size: 32
+  dropout_rate: 0.1
+  edge_input_features: 50
+  embedding_features: 64
+  firstUpdateLayers: 4
+  hidden_features: 96
+  link: identity
+  max_edge_distance: 8.0
+  min_edge_distance: 0.0
+  num_workers: 4
+  output_features: 1
+  secondUpdateLayers: 4
+  triplet_input_features: 40
+optuna:
+  n_trials: 10
+  study_name: GCPNet_4090_hyperopt
+output_dir: ./output_safe
+predict:
+  model_path: model.pt
+  output_path: output.csv
+project_name: GCPNet_safe_hyperopt
+self_loop: true
+visualize_args:
+  early_exaggeration: 12
+  learning_rate: 300
+  n_iter: 5000
+  perplexity: 50
+  random_state: 42
+  verbose: 1
+wandb:
+  entity: 1548532425-null
+  log_enable: false
+  sweep_count: 50

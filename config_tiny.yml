@@ -1,0 +1,67 @@
+project_name: "GCPNet_tiny_test"
+net: "GCPNet"
+output_dir: "./output_tiny"
+self_loop: True
+n_neighbors: 12
+debug: False
+
+netAttributes:
+  firstUpdateLayers: 2
+  secondUpdateLayers: 2
+  atom_input_features: 105
+  edge_input_features: 50
+  triplet_input_features: 40
+  embedding_features: 32
+  hidden_features: 32
+  output_features: 1
+  min_edge_distance: 0.0
+  max_edge_distance: 8.0
+  link: "identity"
+  batch_size: 8
+  num_workers: 1
+  dropout_rate: 0.1
+
+hyperParameters:
+  lr: 0.001
+  optimizer: "AdamW"
+  optimizer_args:
+    weight_decay: 5.0e-5
+  scheduler: "ReduceLROnPlateau"
+  scheduler_args:
+    mode: "min"
+    factor: 0.5
+    patience: 3
+    min_lr: 1.0e-6
+    threshold: 0.0002
+  seed: 666
+  epochs: 3
+  patience: 2
+
+data:
+  points: all
+  dataset_path: './data'
+  dataset_name: 'jarvis_fe_15k'
+  target_name: 'formation_energy_peratom'
+  pin_memory: True
+  num_folds: 5
+
+predict:
+  model_path: 'model.pt'
+  output_path: 'output.csv'
+
+visualize_args:
+  perplexity: 50
+  early_exaggeration: 12
+  learning_rate: 300
+  n_iter: 5000
+  verbose: 1
+  random_state: 42
+
+optuna:
+  n_trials: 2
+  study_name: "GCPNet_tiny_test"
+  
+wandb:
+  log_enable: False
+  sweep_count: 2
+  entity: "1548532425-null"
