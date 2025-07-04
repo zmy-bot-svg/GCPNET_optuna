@@ -17,7 +17,7 @@ netAttributes:
   min_edge_distance: 0.0
   max_edge_distance: 8.0
   link: "identity"
-  batch_size: 128                      # 4090显存大，可以用更大的batch_size
+  batch_size: 96                      # 4090显存大，可以用更大的batch_size
   num_workers: 4                       # 4090服务器CPU核心多，可以增加num_workers
   dropout_rate: 0.1
 

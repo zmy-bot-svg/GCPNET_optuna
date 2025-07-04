@@ -1,0 +1,24 @@
+
+# 快速修复补丁 - 应用到train_utils.py
+
+# 1. 在文件开头添加import（如果没有的话）
+import gc
+
+# 2. 修改load_ckpt方法（已经正确）
+def load_ckpt(self, ckpt_path='checkpoint.pt'):
+    self.net = torch.load(ckpt_path, weights_only=False)
+    self.from_scratch = False
+
+# 3. 修改fit方法的最后部分
+# 在return dfhistory之前，将：
+#     self.net = torch.load(ckpt_path)
+# 改为：
+#     self.net = torch.load(ckpt_path, weights_only=False)
+
+# 4. 在主程序的objective_4090函数中，在finally块添加：
+finally:
+    # 强制清理GPU内存
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    gc.collect()
+    print("="*60)

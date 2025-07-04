@@ -1,0 +1,118 @@
+# Python相关
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv
+.env
+
+# IDE和编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 数据和模型文件（重要！避免上传大文件）
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.npz
+*.npy
+
+# 数据集目录
+data/
+dataset/
+datasets/
+*.csv
+*.json
+*.zip
+*.tar.gz
+*.rar
+
+# 输出和日志文件
+output*/
+logs/
+runs/
+*.log
+*.out
+*.err
+
+# TensorBoard日志
+tensorboard_logs/
+tb_logs/
+
+# Optuna数据库
+*.db
+*.sqlite
+*.sqlite3
+
+# 大型缓存文件
+.cache/
+cache/
+tmp/
+temp/
+
+# 权重和检查点备份
+*.backup*
+checkpoint*/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.tmp
+
+# 配置文件中的敏感信息（如果有）
+config_private.yml
+secrets.yml
+.env
+
+# 编译文件
+*.o
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+
+# 其他大文件
+*.bin
+*.data
+*.index
+*.meta
+
+# 监控和同步脚本生成的文件
+monitor.log
+sync.log
+*.pid

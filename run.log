@@ -1,0 +1,1675 @@
+2025-07-04 12:48:49.758010: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-04 12:48:49.772499: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751604529.788765   19778 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751604529.793581   19778 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751604529.806883   19778 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751604529.806908   19778 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751604529.806912   19778 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751604529.806915   19778 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-04 12:48:49.810705: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[I 2025-07-04 12:48:51,984] A new study created in RDB with name: GCPNet_4090_hyperopt
+/root/autodl-tmp/GCPNET_optuna/main.py:578: ExperimentalWarning: TensorBoardCallback is experimental (supported from v2.0.0). The interface can change in the future.
+  callbacks=[TensorBoardCallback(tensorboard_dir, metric_name='val_mae')] # <--- 把它移动到这里
+Starting Optuna hyperparameter optimization...
+🚀 Using 4090-optimized hyperparameter search space
+Running 50 trials...
+Results will be saved to: ./output_4090/20250704_124851/GCPNet_4090_hyperopt.db
+TensorBoard logs: ./output_4090/20250704_124851/tensorboard_logs
+To view real-time progress: tensorboard --logdir ./output_4090/20250704_124851/tensorboard_logs
+============================================================
+
+🔍 Trial #0 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.00GB
+   已缓存: 0.00GB
+   可用: 25.28GB
+   清理后-已分配: 0.00GB
+   清理后-已缓存: 0.00GB
+   清理后-可用: 25.28GB
+
+============================================================
+🚀 Starting Trial #0 (Memory Safe)
+  Parameters:
+    - lr: 0.0013203077479228501
+    - dropout_rate: 0.1597442635705565
+    - weight_decay: 4.08275503287407e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█epoch     train_loss  train_mae  train_mape  lr        val_loss  val_mae   val_mape  best_val_mae  time    
+1.0       0.428       0.428      3.76e+02    0.00132   0.297     0.298     1.44e+02  0.297         25.7      
+2.0       0.258       0.258      2.77e+02    0.00132   0.267     0.266     1.22e+02  0.267         25.3      
+3.0       0.218       0.218      1.68e+02    0.00132   0.211     0.211     1.93e+02  0.211         25.5      
+4.0       0.194       0.194      2.2e+02     0.00132   0.179     0.178     77.2      0.179         25.5      
+5.0       0.188       0.188      1.65e+02    0.00132   0.185     0.184     1.39e+02  0.179         25.4      
+6.0       0.171       0.172      1.79e+02    0.00132   0.165     0.165     1.81e+02  0.165         25.4      
+7.0       0.163       0.163      1.09e+02    0.00132   0.165     0.163     1.65e+02  0.165         25.7      
+8.0       0.157       0.157      1.26e+02    0.00132   0.152     0.152     1.54e+02  0.152         25.2      
+9.0       0.146       0.146      1.3e+02     0.00132   0.15      0.15      1.86e+02  0.15          25.1      
+10.0      0.14        0.14       1.25e+02    0.00132   0.152     0.152     93.5      0.15          25.2      
+11.0      0.141       0.141      1.47e+02    0.00132   0.137     0.137     1.16e+02  0.137         25.2      
+12.0      0.138       0.138      1.33e+02    0.00132   0.147     0.147     99.7      0.137         24.7      
+13.0      0.131       0.131      1.52e+02    0.00132   0.133     0.133     2.62e+02  0.133         25.5      
+14.0      0.129       0.129      1.27e+02    0.00132   0.136     0.136     98.5      0.133         25.3      
+15.0      0.123       0.123      1.5e+02     0.00132   0.128     0.129     1.3e+02   0.128         25.6      
+16.0      0.12        0.12       1.28e+02    0.00132   0.131     0.131     76.2      0.128         25.3      
+17.0      0.119       0.119      1.05e+02    0.00132   0.141     0.141     1.77e+02  0.128         25.1      
+18.0      0.117       0.117      90.1        0.00132   0.13      0.129     1.85e+02  0.128         25.1      
+19.0      0.112       0.112      1.31e+02    0.00132   0.145     0.144     1.77e+02  0.128         25.4      
+20.0      0.115       0.115      1.2e+02     0.00132   0.131     0.131     1.87e+02  0.128         25.4      
+21.0      0.108       0.108      1.01e+02    0.00132   0.125     0.125     1.75e+02  0.125         26.0      
+22.0      0.114       0.114      1.1e+02     0.00132   0.127     0.127     1.25e+02  0.125         25.1      
+23.0      0.106       0.106      1.03e+02    0.00132   0.133     0.133     1.37e+02  0.125         24.6      
+24.0      0.104       0.103      1.12e+02    0.00132   0.14      0.14      2.33e+02  0.125         25.4      
+25.0      0.103       0.103      1.18e+02    0.00132   0.127     0.127     1.94e+02  0.125         25.7      
+26.0      0.0999      0.0999     90.4        0.00132   0.112     0.111     2.21e+02  0.112         25.9      
+27.0      0.099       0.099      1.11e+02    0.00132   0.113     0.113     2e+02     0.112         25.2      
+28.0      0.0937      0.0937     94.7        0.00132   0.126     0.127     1.66e+02  0.112         25.4      
+29.0      0.094       0.094      1.03e+02    0.00132   0.12      0.12      1.74e+02  0.112         25.2      
+30.0      0.0942      0.0942     84.7        0.00132   0.119     0.119     1.58e+02  0.112         25.2      
+31.0      0.0917      0.0917     98.6        0.00132   0.113     0.113     2.18e+02  0.112         25.2      
+32.0      0.0888      0.0888     88.3        0.00132   0.119     0.119     2.03e+02  0.112         25.3      
+33.0      0.0902      0.0902     1.26e+02    0.00132   0.12      0.12      2.04e+02  0.112         25.2      
+34.0      0.0905      0.0905     92.2        0.00132   0.125     0.125     2.67e+02  0.112         25.5      
+35.0      0.0865      0.0866     93.1        0.00132   0.13      0.13      1.78e+02  0.112         25.2      
+36.0      0.0884      0.0884     1.1e+02     0.00132   0.113     0.112     2.46e+02  0.112         25.1      
+37.0      0.0838      0.0838     99.5        0.00132   0.11      0.11      2.45e+02  0.11          25.1      
+38.0      0.0862      0.0863     73.1        0.00132   0.108     0.108     2.35e+02  0.108         26.2      
+39.0      0.0824      0.0824     87.3        0.00132   0.111     0.111     2.16e+02  0.108         25.7      
+40.0      0.0848      0.0848     86.5        0.00132   0.11      0.11      1.59e+02  0.108         25.6      
+41.0      0.0812      0.0812     64.4        0.00132   0.109     0.11      1.28e+02  0.108         25.7      
+42.0      0.0794      0.0794     1.05e+02    0.00132   0.113     0.113     2.88e+02  0.108         25.6      
+43.0      0.0784      0.0784     93.1        0.00132   0.121     0.121     2.3e+02   0.108         25.6      
+44.0      0.0783      0.0782     98.4        0.00132   0.103     0.103     2.28e+02  0.103         26.1      
+45.0      0.0821      0.0821     94.0        0.00132   0.104     0.105     2.61e+02  0.103         25.8      
+46.0      0.0762      0.0762     84.3        0.00132   0.102     0.102     2.62e+02  0.102         25.9      
+47.0      0.0763      0.0763     75.1        0.00132   0.111     0.111     2.27e+02  0.102         25.6      
+48.0      0.0752      0.0751     90.4        0.00132   0.107     0.107     2.56e+02  0.102         25.7      
+49.0      0.0727      0.0727     65.3        0.00132   0.108     0.108     2.65e+02  0.102         25.6      
+50.0      0.0736      0.0735     83.2        0.00132   0.107     0.107     3e+02     0.102         25.7      
+51.0      0.0717      0.0718     90.3        0.00132   0.105     0.105     1.96e+02  0.102         25.6      
+52.0      0.0698      0.0698     68.6        0.00132   0.103     0.104     1.93e+02  0.102         25.8      
+53.0      0.0698      0.0696     81.8        0.00132   0.0996    0.0994    2.17e+02  0.0996        26.1      
+54.0      0.0686      0.0685     74.2        0.00132   0.103     0.103     2.48e+02  0.0996        26.2      
+55.0      0.0719      0.0719     82.8        0.00132   0.109     0.108     3.19e+02  0.0996        25.4      
+56.0      0.0672      0.0671     80.5        0.00132   0.102     0.102     2.94e+02  0.0996        25.5      
+57.0      0.0668      0.0668     94.9        0.00132   0.104     0.104     2.18e+02  0.0996        25.4      
+58.0      0.067       0.067      95.2        0.00132   0.113     0.113     2.42e+02  0.0996        25.5      
+59.0      0.0681      0.0681     66.4        0.00132   0.101     0.101     2.96e+02  0.0996        25.7      
+60.0      0.0676      0.0675     88.5        0.00132   0.105     0.104     2.92e+02  0.0996        26.0      
+61.0      0.0647      0.0647     76.9        0.00132   0.0984    0.0986    2.78e+02  0.0984        25.9      
+62.0      0.0656      0.0656     83.3        0.00132   0.104     0.103     3.38e+02  0.0984        25.6      
+63.0      0.0661      0.0661     59.0        0.00132   0.112     0.111     3.44e+02  0.0984        25.6      
+64.0      0.0641      0.0641     74.1        0.00132   0.0982    0.0984    3.11e+02  0.0982        26.1      
+65.0      0.0628      0.0627     69.3        0.00132   0.105     0.105     2.7e+02   0.0982        25.9      
+66.0      0.0618      0.0618     69.8        0.00132   0.1       0.101     2.28e+02  0.0982        25.9      
+67.0      0.0616      0.0616     68.9        0.00132   0.0939    0.0937    2.82e+02  0.0939        26.1      
+68.0      0.062       0.0619     75.4        0.00132   0.101     0.101     2.88e+02  0.0939        25.7      
+69.0      0.0613      0.0614     65.8        0.00132   0.101     0.101     2.5e+02   0.0939        25.4      
+70.0      0.0592      0.0591     89.2        0.00132   0.102     0.103     2.87e+02  0.0939        25.8      
+71.0      0.0612      0.0612     73.6        0.00132   0.111     0.111     3.2e+02   0.0939        25.8      
+72.0      0.0597      0.0593     59.7        0.00132   0.094     0.0942    2.96e+02  0.0939        26.1      
+73.0      0.0581      0.0581     63.6        0.00132   0.0967    0.0967    2.61e+02  0.0939        25.6      
+74.0      0.0584      0.0584     77.6        0.00132   0.097     0.0971    1.94e+02  0.0939        25.7      
+75.0      0.0599      0.0599     58.8        0.00132   0.0955    0.0956    2.53e+02  0.0939        25.6      
+76.0      0.0572      0.0573     54.2        0.00132   0.0956    0.0958    2.62e+02  0.0939        25.8      
+77.0      0.0585      0.0585     64.8        0.00132   0.0979    0.0979    1.84e+02  0.0939        25.9      
+78.0      0.057       0.057      87.2        0.00132   0.106     0.107     2.53e+02  0.0939        25.7      
+79.0      0.0472      0.0472     52.5        0.00066   0.0911    0.0909    2.28e+02  0.0911        25.8      
+80.0      0.0428      0.0428     49.6        0.00066   0.0891    0.0892    2.46e+02  0.0891        25.7      
+81.0      0.0414      0.0414     53.9        0.00066   0.0906    0.0909    2.44e+02  0.0891        25.6      
+82.0      0.0408      0.0408     44.6        0.00066   0.0878    0.0881    2.54e+02  0.0878        25.9      
+83.0      0.0397      0.0397     49.1        0.00066   0.0884    0.0887    2.46e+02  0.0878        25.8      
+84.0      0.04        0.0399     46.9        0.00066   0.0882    0.0884    3.07e+02  0.0878        25.7      
+85.0      0.0395      0.0395     54.7        0.00066   0.0886    0.0889    2.94e+02  0.0878        25.6      
+86.0      0.0389      0.0388     44.2        0.00066   0.091     0.091     2.54e+02  0.0878        25.6      
+87.0      0.0388      0.0388     57.6        0.00066   0.0877    0.0882    2.63e+02  0.0877        25.4      
+88.0      0.0379      0.0379     53.2        0.00066   0.0912    0.0914    2.99e+02  0.0877        25.7      
+89.0      0.039       0.039      47.7        0.00066   0.0876    0.0875    2.57e+02  0.0876        25.7      
+90.0      0.0376      0.0376     58.9        0.00066   0.0878    0.0882    2.66e+02  0.0876        26.0      
+91.0      0.0371      0.0371     43.9        0.00066   0.0871    0.0872    2.48e+02  0.0871        27.0      
+92.0      0.0383      0.0383     52.1        0.00066   0.0888    0.0887    2.54e+02  0.0871        25.6      
+93.0      0.0368      0.0368     49.8        0.00066   0.0867    0.087     2.49e+02  0.0867        26.1      
+94.0      0.0375      0.0375     52.9        0.00066   0.0897    0.0899    3.02e+02  0.0867        25.8      
+95.0      0.0363      0.0363     47.1        0.00066   0.0864    0.0866    2.73e+02  0.0864        25.9      
+96.0      0.0366      0.0366     53.7        0.00066   0.0883    0.0885    2.64e+02  0.0864        25.6      
+97.0      0.0366      0.0366     52.7        0.00066   0.0872    0.0873    2.71e+02  0.0864        25.7      
+98.0      0.0371      0.0371     42.8        0.00066   0.0887    0.0889    2.7e+02   0.0864        25.5      
+99.0      0.0368      0.0368     46.8        0.00066   0.0866    0.0866    2.87e+02  0.0864        25.6      
+[I 2025-07-04 13:31:33,876] Trial 0 finished with value: inf and parameters: {'lr': 0.0013203077479228501, 'dropout_rate': 0.1597442635705565, 'weight_decay': 4.08275503287407e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+I0000 00:00:1751607093.904965   19778 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 22042 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:d6:00.0, compute capability: 8.9
+1e+02     0.0378      0.0378     48.5        0.00066   0.0869    0.0872    2.35e+02  0.0864        25.7      
+    epoch  train_loss  train_mae  ...    val_mape  best_val_mae       time
+0       1    0.427863   0.428282  ...  143.877350      0.297288  25.735105
+1       2    0.257703   0.257754  ...  122.180153      0.266532  25.274372
+2       3    0.218349   0.218225  ...  193.009140      0.211428  25.543674
+3       4    0.194221   0.194242  ...   77.159981      0.178635  25.519716
+4       5    0.187686   0.187768  ...  138.762756      0.178635  25.354090
+..    ...         ...        ...  ...         ...           ...        ...
+95     96    0.036610   0.036588  ...  264.228363      0.086386  25.630809
+96     97    0.036592   0.036619  ...  270.903503      0.086386  25.666797
+97     98    0.037116   0.037103  ...  270.092255      0.086386  25.544261
+98     99    0.036783   0.036811  ...  287.001038      0.086386  25.640873
+99    100    0.037824   0.037810  ...  234.734192      0.086386  25.739134
+
+[100 rows x 10 columns]
+❌ Trial 0 failed: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m. 
+	(1) In PyTorch 2.6, we changed the default value of the `weights_only` argument in `torch.load` from `False` to `True`. Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.
+	(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.
+	WeightsUnpickler error: Unsupported global: GLOBAL model.GCPNet was not an allowed global by default. Please use `torch.serialization.add_safe_globals([GCPNet])` or the `torch.serialization.safe_globals([GCPNet])` context manager to allowlist this global if you trust this class/function.
+
+Check the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html.
+🧹 Cleaned 19.08GB GPU memory
+============================================================
+
+🔍 Trial #1 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #1 (Memory Safe)
+  Parameters:
+    - lr: 0.0014630295494718081
+    - dropout_rate: 0.05066414903929398
+    - weight_decay: 1.2645051922125569e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:36,591] Trial 1 finished with value: inf and parameters: {'lr': 0.0014630295494718081, 'dropout_rate': 0.05066414903929398, 'weight_decay': 1.2645051922125569e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #1 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 0.27GB GPU memory
+🧹 Cleaned 1.26GB GPU memory
+============================================================
+
+🔍 Trial #2 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #2 (Memory Safe)
+  Parameters:
+    - lr: 0.0017145127436012273
+    - dropout_rate: 0.13143258847833525
+    - weight_decay: 5.4892957553339255e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:38,435] Trial 2 finished with value: inf and parameters: {'lr': 0.0017145127436012273, 'dropout_rate': 0.13143258847833525, 'weight_decay': 5.4892957553339255e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #2 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.61GB GPU memory
+============================================================
+
+🔍 Trial #3 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #3 (Memory Safe)
+  Parameters:
+    - lr: 0.0007273985260343169
+    - dropout_rate: 0.12293447474756401
+    - weight_decay: 6.530263333113017e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:40,404] Trial 3 finished with value: inf and parameters: {'lr': 0.0007273985260343169, 'dropout_rate': 0.12293447474756401, 'weight_decay': 6.530263333113017e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #3 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.57GB GPU memory
+============================================================
+
+🔍 Trial #4 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #4 (Memory Safe)
+  Parameters:
+    - lr: 0.0006432896273598899
+    - dropout_rate: 0.1649233286186833
+    - weight_decay: 4.457938777079751e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:42,226] Trial 4 finished with value: inf and parameters: {'lr': 0.0006432896273598899, 'dropout_rate': 0.1649233286186833, 'weight_decay': 4.457938777079751e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #4 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.52GB GPU memory
+============================================================
+
+🔍 Trial #5 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #5 (Memory Safe)
+  Parameters:
+    - lr: 0.001391790671763129
+    - dropout_rate: 0.1435415790117949
+    - weight_decay: 6.404696288914479e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 4
+    - hidden_features: 96
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:44,034] Trial 5 finished with value: inf and parameters: {'lr': 0.001391790671763129, 'dropout_rate': 0.1435415790117949, 'weight_decay': 6.404696288914479e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 4, 'hidden_features': 96, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #5 - GPU OOM
+   配置：batch_size=48, hidden_features=96
+🧹 Cleaned 1.56GB GPU memory
+============================================================
+
+🔍 Trial #6 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #6 (Memory Safe)
+  Parameters:
+    - lr: 0.0019779207629301485
+    - dropout_rate: 0.07759347504524798
+    - weight_decay: 7.170690226720132e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:45,840] Trial 6 finished with value: inf and parameters: {'lr': 0.0019779207629301485, 'dropout_rate': 0.07759347504524798, 'weight_decay': 7.170690226720132e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #6 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 1.40GB GPU memory
+============================================================
+
+🔍 Trial #7 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #7 (Memory Safe)
+  Parameters:
+    - lr: 0.0014944894667812101
+    - dropout_rate: 0.1329021073139904
+    - weight_decay: 7.880155504429176e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 3
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:47,660] Trial 7 finished with value: inf and parameters: {'lr': 0.0014944894667812101, 'dropout_rate': 0.1329021073139904, 'weight_decay': 7.880155504429176e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 3, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #7 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.51GB GPU memory
+============================================================
+
+🔍 Trial #8 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #8 (Memory Safe)
+  Parameters:
+    - lr: 0.0009572567695414538
+    - dropout_rate: 0.08046070081408158
+    - weight_decay: 1.2053689698076226e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:49,574] Trial 8 finished with value: inf and parameters: {'lr': 0.0009572567695414538, 'dropout_rate': 0.08046070081408158, 'weight_decay': 1.2053689698076226e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #8 - GPU OOM
+   配置：batch_size=96, hidden_features=160
+🧹 Cleaned 1.41GB GPU memory
+============================================================
+
+🔍 Trial #9 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #9 (Memory Safe)
+  Parameters:
+    - lr: 0.001515651575194061
+    - dropout_rate: 0.13836072946283884
+    - weight_decay: 2.4901895395496047e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 4
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:51,407] Trial 9 finished with value: inf and parameters: {'lr': 0.001515651575194061, 'dropout_rate': 0.13836072946283884, 'weight_decay': 2.4901895395496047e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 4, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #9 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.50GB GPU memory
+============================================================
+
+🔍 Trial #10 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #10 (Memory Safe)
+  Parameters:
+    - lr: 0.0010536047336000148
+    - dropout_rate: 0.17982962866501429
+    - weight_decay: 2.957741889153824e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:53,209] Trial 10 finished with value: inf and parameters: {'lr': 0.0010536047336000148, 'dropout_rate': 0.17982962866501429, 'weight_decay': 2.957741889153824e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #10 - GPU OOM
+   配置：batch_size=48, hidden_features=160
+🧹 Cleaned 1.38GB GPU memory
+============================================================
+
+🔍 Trial #11 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #11 (Memory Safe)
+  Parameters:
+    - lr: 0.0011171681909833006
+    - dropout_rate: 0.05347113738540779
+    - weight_decay: 1.0962682932218422e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:55,027] Trial 11 finished with value: inf and parameters: {'lr': 0.0011171681909833006, 'dropout_rate': 0.05347113738540779, 'weight_decay': 1.0962682932218422e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #11 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 0.25GB GPU memory
+🧹 Cleaned 1.16GB GPU memory
+============================================================
+
+🔍 Trial #12 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #12 (Memory Safe)
+  Parameters:
+    - lr: 0.0012039494438751258
+    - dropout_rate: 0.09265357047915454
+    - weight_decay: 1.7784000481641705e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:56,877] Trial 12 finished with value: inf and parameters: {'lr': 0.0012039494438751258, 'dropout_rate': 0.09265357047915454, 'weight_decay': 1.7784000481641705e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #12 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.59GB GPU memory
+============================================================
+
+🔍 Trial #13 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #13 (Memory Safe)
+  Parameters:
+    - lr: 0.0005022583511749076
+    - dropout_rate: 0.10382666288601822
+    - weight_decay: 3.610402759606688e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:31:58,742] Trial 13 finished with value: inf and parameters: {'lr': 0.0005022583511749076, 'dropout_rate': 0.10382666288601822, 'weight_decay': 3.610402759606688e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #13 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 0.25GB GPU memory
+🧹 Cleaned 1.15GB GPU memory
+============================================================
+
+🔍 Trial #14 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #14 (Memory Safe)
+  Parameters:
+    - lr: 0.0013061382158399528
+    - dropout_rate: 0.050666931901691255
+    - weight_decay: 1.7337871827320193e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:00,646] Trial 14 finished with value: inf and parameters: {'lr': 0.0013061382158399528, 'dropout_rate': 0.050666931901691255, 'weight_decay': 1.7337871827320193e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #14 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.47GB GPU memory
+============================================================
+
+🔍 Trial #15 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #15 (Memory Safe)
+  Parameters:
+    - lr: 0.0009674867054043335
+    - dropout_rate: 0.15203104359342187
+    - weight_decay: 1.9924716628024552e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 4
+    - hidden_features: 160
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:02,485] Trial 15 finished with value: inf and parameters: {'lr': 0.0009674867054043335, 'dropout_rate': 0.15203104359342187, 'weight_decay': 1.9924716628024552e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 4, 'hidden_features': 160, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #15 - GPU OOM
+   配置：batch_size=48, hidden_features=160
+🧹 Cleaned 1.52GB GPU memory
+============================================================
+
+🔍 Trial #16 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #16 (Memory Safe)
+  Parameters:
+    - lr: 0.0019521336210572835
+    - dropout_rate: 0.1047185258687198
+    - weight_decay: 4.271091477628953e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:04,389] Trial 16 finished with value: inf and parameters: {'lr': 0.0019521336210572835, 'dropout_rate': 0.1047185258687198, 'weight_decay': 4.271091477628953e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #16 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 1.44GB GPU memory
+============================================================
+
+🔍 Trial #17 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #17 (Memory Safe)
+  Parameters:
+    - lr: 0.0008552525906335536
+    - dropout_rate: 0.06708467166410248
+    - weight_decay: 1.4295760421963136e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:06,225] Trial 17 finished with value: inf and parameters: {'lr': 0.0008552525906335536, 'dropout_rate': 0.06708467166410248, 'weight_decay': 1.4295760421963136e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #17 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 0.48GB GPU memory
+🧹 Cleaned 1.12GB GPU memory
+============================================================
+
+🔍 Trial #18 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #18 (Memory Safe)
+  Parameters:
+    - lr: 0.0016658398722872933
+    - dropout_rate: 0.1614493468065586
+    - weight_decay: 2.5627322892042582e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:08,111] Trial 18 finished with value: inf and parameters: {'lr': 0.0016658398722872933, 'dropout_rate': 0.1614493468065586, 'weight_decay': 2.5627322892042582e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #18 - GPU OOM
+   配置：batch_size=96, hidden_features=160
+🧹 Cleaned 1.45GB GPU memory
+============================================================
+
+🔍 Trial #19 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #19 (Memory Safe)
+  Parameters:
+    - lr: 0.0012314266508180035
+    - dropout_rate: 0.1129498823581036
+    - weight_decay: 3.394080204242373e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 4
+    - hidden_features: 96
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:09,985] Trial 19 finished with value: inf and parameters: {'lr': 0.0012314266508180035, 'dropout_rate': 0.1129498823581036, 'weight_decay': 3.394080204242373e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 4, 'hidden_features': 96, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #19 - GPU OOM
+   配置：batch_size=48, hidden_features=96
+🧹 Cleaned 0.15GB GPU memory
+🧹 Cleaned 1.42GB GPU memory
+============================================================
+
+🔍 Trial #20 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #20 (Memory Safe)
+  Parameters:
+    - lr: 0.0016860409956573764
+    - dropout_rate: 0.17817667003604293
+    - weight_decay: 2.1701601976199053e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:11,882] Trial 20 finished with value: inf and parameters: {'lr': 0.0016860409956573764, 'dropout_rate': 0.17817667003604293, 'weight_decay': 2.1701601976199053e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #20 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.58GB GPU memory
+============================================================
+
+🔍 Trial #21 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #21 (Memory Safe)
+  Parameters:
+    - lr: 0.0017031344577884341
+    - dropout_rate: 0.12971199098853314
+    - weight_decay: 5.039706995421301e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:13,831] Trial 21 finished with value: inf and parameters: {'lr': 0.0017031344577884341, 'dropout_rate': 0.12971199098853314, 'weight_decay': 5.039706995421301e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #21 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.61GB GPU memory
+============================================================
+
+🔍 Trial #22 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #22 (Memory Safe)
+  Parameters:
+    - lr: 0.0014075289844895065
+    - dropout_rate: 0.15483275748469258
+    - weight_decay: 5.3669093565576996e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:15,731] Trial 22 finished with value: inf and parameters: {'lr': 0.0014075289844895065, 'dropout_rate': 0.15483275748469258, 'weight_decay': 5.3669093565576996e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #22 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.40GB GPU memory
+============================================================
+
+🔍 Trial #23 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #23 (Memory Safe)
+  Parameters:
+    - lr: 0.0018047258003663525
+    - dropout_rate: 0.11740009309033103
+    - weight_decay: 3.548424903688632e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:17,625] Trial 23 finished with value: inf and parameters: {'lr': 0.0018047258003663525, 'dropout_rate': 0.11740009309033103, 'weight_decay': 3.548424903688632e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #23 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.60GB GPU memory
+============================================================
+
+🔍 Trial #24 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #24 (Memory Safe)
+  Parameters:
+    - lr: 0.0015603916908537951
+    - dropout_rate: 0.14241142392568482
+    - weight_decay: 5.467837974075705e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:19,592] Trial 24 finished with value: inf and parameters: {'lr': 0.0015603916908537951, 'dropout_rate': 0.14241142392568482, 'weight_decay': 5.467837974075705e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #24 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.51GB GPU memory
+============================================================
+
+🔍 Trial #25 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #25 (Memory Safe)
+  Parameters:
+    - lr: 0.001325130569496628
+    - dropout_rate: 0.17030098546727854
+    - weight_decay: 4.220623268791894e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:21,535] Trial 25 finished with value: inf and parameters: {'lr': 0.001325130569496628, 'dropout_rate': 0.17030098546727854, 'weight_decay': 4.220623268791894e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #25 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 0.25GB GPU memory
+🧹 Cleaned 1.16GB GPU memory
+============================================================
+
+🔍 Trial #26 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #26 (Memory Safe)
+  Parameters:
+    - lr: 0.0015285599877020329
+    - dropout_rate: 0.09193982276174006
+    - weight_decay: 3.0408532322863887e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:23,646] Trial 26 finished with value: inf and parameters: {'lr': 0.0015285599877020329, 'dropout_rate': 0.09193982276174006, 'weight_decay': 3.0408532322863887e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #26 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.46GB GPU memory
+============================================================
+
+🔍 Trial #27 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #27 (Memory Safe)
+  Parameters:
+    - lr: 0.001114841133747757
+    - dropout_rate: 0.15478828690023724
+    - weight_decay: 1.4797510821122207e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:25,670] Trial 27 finished with value: inf and parameters: {'lr': 0.001114841133747757, 'dropout_rate': 0.15478828690023724, 'weight_decay': 1.4797510821122207e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #27 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 0.28GB GPU memory
+🧹 Cleaned 1.33GB GPU memory
+============================================================
+
+🔍 Trial #28 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #28 (Memory Safe)
+  Parameters:
+    - lr: 0.001255817743821823
+    - dropout_rate: 0.1254523747466292
+    - weight_decay: 4.7830504708298505e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:27,457] Trial 28 finished with value: inf and parameters: {'lr': 0.001255817743821823, 'dropout_rate': 0.1254523747466292, 'weight_decay': 4.7830504708298505e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #28 - GPU OOM
+   配置：batch_size=48, hidden_features=128
+🧹 Cleaned 1.60GB GPU memory
+============================================================
+
+🔍 Trial #29 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #29 (Memory Safe)
+  Parameters:
+    - lr: 0.00077745828056734
+    - dropout_rate: 0.11818110783784103
+    - weight_decay: 6.250015800858343e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 4
+    - hidden_features: 96
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:29,420] Trial 29 finished with value: inf and parameters: {'lr': 0.00077745828056734, 'dropout_rate': 0.11818110783784103, 'weight_decay': 6.250015800858343e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 4, 'hidden_features': 96, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #29 - GPU OOM
+   配置：batch_size=96, hidden_features=96
+🧹 Cleaned 1.55GB GPU memory
+============================================================
+
+🔍 Trial #30 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #30 (Memory Safe)
+  Parameters:
+    - lr: 0.0017929051751338723
+    - dropout_rate: 0.06366618957624277
+    - weight_decay: 3.841680190702032e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:31,199] Trial 30 finished with value: inf and parameters: {'lr': 0.0017929051751338723, 'dropout_rate': 0.06366618957624277, 'weight_decay': 3.841680190702032e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #30 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.51GB GPU memory
+============================================================
+
+🔍 Trial #31 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #31 (Memory Safe)
+  Parameters:
+    - lr: 0.0006735791445661282
+    - dropout_rate: 0.12428803994469863
+    - weight_decay: 6.217341565922659e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:32,959] Trial 31 finished with value: inf and parameters: {'lr': 0.0006735791445661282, 'dropout_rate': 0.12428803994469863, 'weight_decay': 6.217341565922659e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #31 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.57GB GPU memory
+============================================================
+
+🔍 Trial #32 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #32 (Memory Safe)
+  Parameters:
+    - lr: 0.0005962714418840103
+    - dropout_rate: 0.1466687441592632
+    - weight_decay: 5.761458606387372e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:34,860] Trial 32 finished with value: inf and parameters: {'lr': 0.0005962714418840103, 'dropout_rate': 0.1466687441592632, 'weight_decay': 5.761458606387372e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #32 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.58GB GPU memory
+============================================================
+
+🔍 Trial #33 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #33 (Memory Safe)
+  Parameters:
+    - lr: 0.0008511188521811257
+    - dropout_rate: 0.10829722350900976
+    - weight_decay: 7.142491966961993e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:36,718] Trial 33 finished with value: inf and parameters: {'lr': 0.0008511188521811257, 'dropout_rate': 0.10829722350900976, 'weight_decay': 7.142491966961993e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #33 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.53GB GPU memory
+============================================================
+
+🔍 Trial #34 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #34 (Memory Safe)
+  Parameters:
+    - lr: 0.0006833575371688609
+    - dropout_rate: 0.0951173671214295
+    - weight_decay: 7.13921712082507e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:38,614] Trial 34 finished with value: inf and parameters: {'lr': 0.0006833575371688609, 'dropout_rate': 0.0951173671214295, 'weight_decay': 7.13921712082507e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #34 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 0.10GB GPU memory
+🧹 Cleaned 1.43GB GPU memory
+============================================================
+
+🔍 Trial #35 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #35 (Memory Safe)
+  Parameters:
+    - lr: 0.0014287077450135825
+    - dropout_rate: 0.13656934727545608
+    - weight_decay: 7.904617870752637e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:40,545] Trial 35 finished with value: inf and parameters: {'lr': 0.0014287077450135825, 'dropout_rate': 0.13656934727545608, 'weight_decay': 7.904617870752637e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #35 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.59GB GPU memory
+============================================================
+
+🔍 Trial #36 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #36 (Memory Safe)
+  Parameters:
+    - lr: 0.0006040907884701354
+    - dropout_rate: 0.1643730154110526
+    - weight_decay: 4.1745691962668955e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 3
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:42,417] Trial 36 finished with value: inf and parameters: {'lr': 0.0006040907884701354, 'dropout_rate': 0.1643730154110526, 'weight_decay': 4.1745691962668955e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 3, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #36 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.55GB GPU memory
+============================================================
+
+🔍 Trial #37 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #37 (Memory Safe)
+  Parameters:
+    - lr: 0.0019715065198752215
+    - dropout_rate: 0.0794143619164069
+    - weight_decay: 4.52181847986916e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 4
+    - hidden_features: 128
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:44,246] Trial 37 finished with value: inf and parameters: {'lr': 0.0019715065198752215, 'dropout_rate': 0.0794143619164069, 'weight_decay': 4.52181847986916e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 4, 'hidden_features': 128, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #37 - GPU OOM
+   配置：batch_size=48, hidden_features=128
+🧹 Cleaned 0.16GB GPU memory
+🧹 Cleaned 1.43GB GPU memory
+============================================================
+
+🔍 Trial #38 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #38 (Memory Safe)
+  Parameters:
+    - lr: 0.001157884336740983
+    - dropout_rate: 0.1298171063289457
+    - weight_decay: 1.0099900458766542e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 3
+    - hidden_features: 160
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:46,194] Trial 38 finished with value: inf and parameters: {'lr': 0.001157884336740983, 'dropout_rate': 0.1298171063289457, 'weight_decay': 1.0099900458766542e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 3, 'hidden_features': 160, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #38 - GPU OOM
+   配置：batch_size=96, hidden_features=160
+🧹 Cleaned 1.56GB GPU memory
+============================================================
+
+🔍 Trial #39 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #39 (Memory Safe)
+  Parameters:
+    - lr: 0.0010404816482014636
+    - dropout_rate: 0.1465274610630985
+    - weight_decay: 6.683988584112696e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 5
+    - hidden_features: 96
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:48,048] Trial 39 finished with value: inf and parameters: {'lr': 0.0010404816482014636, 'dropout_rate': 0.1465274610630985, 'weight_decay': 6.683988584112696e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 5, 'hidden_features': 96, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #39 - GPU OOM
+   配置：batch_size=64, hidden_features=96
+🧹 Cleaned 1.49GB GPU memory
+============================================================
+
+🔍 Trial #40 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #40 (Memory Safe)
+  Parameters:
+    - lr: 0.0007511226422659707
+    - dropout_rate: 0.0874785137419678
+    - weight_decay: 5.9505573351414564e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:49,873] Trial 40 finished with value: inf and parameters: {'lr': 0.0007511226422659707, 'dropout_rate': 0.0874785137419678, 'weight_decay': 5.9505573351414564e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #40 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 1.51GB GPU memory
+============================================================
+
+🔍 Trial #41 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #41 (Memory Safe)
+  Parameters:
+    - lr: 0.0005372852150508655
+    - dropout_rate: 0.1692975837924941
+    - weight_decay: 5.051389808478941e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:51,738] Trial 41 finished with value: inf and parameters: {'lr': 0.0005372852150508655, 'dropout_rate': 0.1692975837924941, 'weight_decay': 5.051389808478941e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #41 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.44GB GPU memory
+============================================================
+
+🔍 Trial #42 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #42 (Memory Safe)
+  Parameters:
+    - lr: 0.0006036243476149314
+    - dropout_rate: 0.13881757772602787
+    - weight_decay: 3.298090133439908e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:53,662] Trial 42 finished with value: inf and parameters: {'lr': 0.0006036243476149314, 'dropout_rate': 0.13881757772602787, 'weight_decay': 3.298090133439908e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #42 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.50GB GPU memory
+============================================================
+
+🔍 Trial #43 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #43 (Memory Safe)
+  Parameters:
+    - lr: 0.0008666530531567199
+    - dropout_rate: 0.16039576958813836
+    - weight_decay: 3.8431689183674056e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 5
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:55,670] Trial 43 finished with value: inf and parameters: {'lr': 0.0008666530531567199, 'dropout_rate': 0.16039576958813836, 'weight_decay': 3.8431689183674056e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 5, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #43 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.50GB GPU memory
+============================================================
+
+🔍 Trial #44 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #44 (Memory Safe)
+  Parameters:
+    - lr: 0.0006873311814055563
+    - dropout_rate: 0.17343575739431782
+    - weight_decay: 2.6091708639559476e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:57,714] Trial 44 finished with value: inf and parameters: {'lr': 0.0006873311814055563, 'dropout_rate': 0.17343575739431782, 'weight_decay': 2.6091708639559476e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #44 - GPU OOM
+   配置：batch_size=96, hidden_features=128
+🧹 Cleaned 1.45GB GPU memory
+============================================================
+
+🔍 Trial #45 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #45 (Memory Safe)
+  Parameters:
+    - lr: 0.0005615198531329749
+    - dropout_rate: 0.06932474421199028
+    - weight_decay: 4.494956391017618e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 4
+    - hidden_features: 160
+    - batch_size: 48
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:32:59,537] Trial 45 finished with value: inf and parameters: {'lr': 0.0005615198531329749, 'dropout_rate': 0.06932474421199028, 'weight_decay': 4.494956391017618e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 4, 'hidden_features': 160, 'batch_size': 48}. Best is trial 0 with value: inf.
+
+💥 Trial #45 - GPU OOM
+   配置：batch_size=48, hidden_features=160
+🧹 Cleaned 0.25GB GPU memory
+🧹 Cleaned 1.20GB GPU memory
+============================================================
+
+🔍 Trial #46 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #46 (Memory Safe)
+  Parameters:
+    - lr: 0.001557875648719692
+    - dropout_rate: 0.15206930474743174
+    - weight_decay: 5.4689358424858435e-05
+    - firstUpdateLayers: 3
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:33:01,516] Trial 46 finished with value: inf and parameters: {'lr': 0.001557875648719692, 'dropout_rate': 0.15206930474743174, 'weight_decay': 5.4689358424858435e-05, 'firstUpdateLayers': 3, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #46 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 1.60GB GPU memory
+============================================================
+
+🔍 Trial #47 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #47 (Memory Safe)
+  Parameters:
+    - lr: 0.0013215346170911667
+    - dropout_rate: 0.10063943292580674
+    - weight_decay: 1.2943539369899543e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 96
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:33:03,644] Trial 47 finished with value: inf and parameters: {'lr': 0.0013215346170911667, 'dropout_rate': 0.10063943292580674, 'weight_decay': 1.2943539369899543e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 96}. Best is trial 0 with value: inf.
+
+💥 Trial #47 - GPU OOM
+   配置：batch_size=96, hidden_features=160
+🧹 Cleaned 1.48GB GPU memory
+============================================================
+
+🔍 Trial #48 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #48 (Memory Safe)
+  Parameters:
+    - lr: 0.0009348669596646385
+    - dropout_rate: 0.12262954807433576
+    - weight_decay: 6.752442610232465e-05
+    - firstUpdateLayers: 5
+    - secondUpdateLayers: 3
+    - hidden_features: 128
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:33:05,508] Trial 48 finished with value: inf and parameters: {'lr': 0.0009348669596646385, 'dropout_rate': 0.12262954807433576, 'weight_decay': 6.752442610232465e-05, 'firstUpdateLayers': 5, 'secondUpdateLayers': 3, 'hidden_features': 128, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #48 - GPU OOM
+   配置：batch_size=64, hidden_features=128
+🧹 Cleaned 1.59GB GPU memory
+============================================================
+
+🔍 Trial #49 - 详细显存诊断:
+   GPU总显存: 25.28GB
+   已分配: 0.02GB
+   已缓存: 0.06GB
+   可用: 25.22GB
+   清理后-已分配: 0.02GB
+   清理后-已缓存: 0.06GB
+   清理后-可用: 25.22GB
+
+============================================================
+🚀 Starting Trial #49 (Memory Safe)
+  Parameters:
+    - lr: 0.0007406401214931135
+    - dropout_rate: 0.056539894729817984
+    - weight_decay: 4.938101244619049e-05
+    - firstUpdateLayers: 4
+    - secondUpdateLayers: 5
+    - hidden_features: 160
+    - batch_size: 64
+============================================================
+
+train length: 12000 val length: 1500 test length: 1500 unused length: 0 seed : 666
+[0;31m<<<<<< ⚡️ cuda is used >>>>>>[0m
+█[I 2025-07-04 13:33:07,507] Trial 49 finished with value: inf and parameters: {'lr': 0.0007406401214931135, 'dropout_rate': 0.056539894729817984, 'weight_decay': 4.938101244619049e-05, 'firstUpdateLayers': 4, 'secondUpdateLayers': 5, 'hidden_features': 160, 'batch_size': 64}. Best is trial 0 with value: inf.
+
+💥 Trial #49 - GPU OOM
+   配置：batch_size=64, hidden_features=160
+🧹 Cleaned 1.37GB GPU memory
+============================================================
+============================================================
+🎉 Hyperparameter optimization finished!
+📊 试验统计:
+   总试验数: 50
+   完成试验: 50
+   剪枝试验: 0 (节省时间: 0.0%)
+   失败试验: 0
+
+🏆 最佳结果:
+   试验编号: #0
+   最佳验证MAE: inf
+   最佳参数:
+     lr: 0.0013203077479228501
+     dropout_rate: 0.1597442635705565
+     weight_decay: 4.08275503287407e-05
+     firstUpdateLayers: 4
+     secondUpdateLayers: 3
+     hidden_features: 160
+     batch_size: 64
+============================================================
+Results saved to: ./output_4090/20250704_124851/optuna_results.txt
+Database saved to: ./output_4090/20250704_124851/GCPNet_4090_hyperopt.db
+TensorBoard logs saved to: ./output_4090/20250704_124851/tensorboard_logs
+To view TensorBoard: tensorboard --logdir ./output_4090/20250704_124851/tensorboard_logs
+To generate visualization: python optuna_visualizer.py --study ./output_4090/20250704_124851/GCPNet_4090_hyperopt.db --output ./visualization

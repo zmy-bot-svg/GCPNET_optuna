@@ -37,6 +37,45 @@ debug = True
 import logging
 from logging.handlers import RotatingFileHandler
 
+# 新增：显存管理工具
+import gc
+import time
+
+class GPUMemoryManager:
+    def __init__(self, verbose=True):
+        self.verbose = verbose
+    
+    def get_memory_info(self):
+        if not torch.cuda.is_available():
+            return {"total": 0, "allocated": 0, "cached": 0, "free": 0}
+        
+        total = torch.cuda.get_device_properties(0).total_memory / 1e9
+        allocated = torch.cuda.memory_allocated() / 1e9
+        cached = torch.cuda.memory_reserved() / 1e9
+        free = total - cached
+        
+        
+        return {"total": total, "allocated": allocated, "cached": cached, "free": free}
+    
+    def safe_cleanup(self, force=False):
+        if not torch.cuda.is_available():
+            return
+        
+        before = self.get_memory_info()
+        gc.collect()
+        torch.cuda.empty_cache()
+        
+        if force:
+            torch.cuda.synchronize()
+            time.sleep(0.1)
+            torch.cuda.empty_cache()
+        
+        after = self.get_memory_info()
+        if self.verbose:
+            freed = before['cached'] - after['cached']
+            if freed > 0.1:
+                print(f"🧹 Cleaned {freed:.2f}GB GPU memory")
+
 # 配置日志系统，用于记录训练过程中的重要信息
 def log_config(log_file='test.log'):
     # 定义日志格式：[时间戳][日志级别]: 消息内容
@@ -300,107 +339,95 @@ def objective(trial, base_config):
 
 # 4090优化的超参数搜索目标函数
 def objective_4090(trial, base_config):
-    """
-    为4090优化的Optuna目标函数
-    利用4090的大显存和强计算能力
-    """
+    gpu_manager = GPUMemoryManager(verbose=True)
     config = copy.deepcopy(base_config)
-    
-    # 4090优化的超参数搜索空间
-    # 学习率：以效果好的0.001为中心
-    config.lr = trial.suggest_float("lr", 0.0005, 0.002, log=True)
-    
-    # Dropout：适中范围，避免过高
-    config.dropout_rate = trial.suggest_float("dropout_rate", 0.05, 0.18)
-    
-    # weight_decay：适中范围
-    weight_decay = trial.suggest_float("weight_decay", 1e-5, 8e-5, log=True)
-    config.optimizer_args = config.optimizer_args.copy()
-    config.optimizer_args['weight_decay'] = weight_decay
-    
-    # 网络层数：保持原范围
-    config.firstUpdateLayers = trial.suggest_categorical("firstUpdateLayers", [3, 4, 5])
-    config.secondUpdateLayers = trial.suggest_categorical("secondUpdateLayers", [3, 4, 5])
-    
-    # 隐藏层维度：4090可以支持更大的模型
-    config.hidden_features = trial.suggest_categorical("hidden_features", [128, 160, 192, 224])
-    
-    # 批次大小：4090显存大，可以尝试更大的batch size
-    config.batch_size = trial.suggest_categorical("batch_size", [64, 96, 128, 160])
-    
-    # ========================================================== #
-    # 🚀 清晰显示当前试验的超参数
-    # ========================================================== #
-    print("\n" + "="*60)
-    print(f"🚀 Starting Trial #{trial.number} (4090 Optimized)")
-    print("  Parameters:")
-    for key, value in trial.params.items():
-        print(f"    - {key}: {value}")
-    print("="*60 + "\n")
-    # ========================================================== #
-    
-    # 关闭 wandb 日志
-    config.log_enable = False
-    
-    # 为每个 trial 创建唯一的输出目录
-    trial_name = f"trial_{trial.number}"
-    config.output_dir = os.path.join(base_config.output_dir, trial_name)
-    if not os.path.exists(config.output_dir):
-        os.makedirs(config.output_dir)
-    
-    # 执行训练
-    try:
-        # 清理GPU内存，确保每个trial开始时内存充足
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
+    # 🔍 添加详细诊断
+    print(f"\n🔍 Trial #{trial.number} - 详细显存诊断:")
+    if torch.cuda.is_available():
+        total = torch.cuda.get_device_properties(0).total_memory / 1e9
+        allocated = torch.cuda.memory_allocated() / 1e9
+        cached = torch.cuda.memory_reserved() / 1e9
+        free = total - cached
+        print(f"   GPU总显存: {total:.2f}GB")
+        print(f"   已分配: {allocated:.2f}GB") 
+        print(f"   已缓存: {cached:.2f}GB")
+        print(f"   可用: {free:.2f}GB")
+        
+        # 强制清理
+        import gc
+        gc.collect()
+        torch.cuda.empty_cache()
+        
+        # 清理后再检查
+        allocated_after = torch.cuda.memory_allocated() / 1e9
+        cached_after = torch.cuda.memory_reserved() / 1e9
+        free_after = total - cached_after
+        print(f"   清理后-已分配: {allocated_after:.2f}GB")
+        print(f"   清理后-已缓存: {cached_after:.2f}GB")  
+        print(f"   清理后-可用: {free_after:.2f}GB")
+        
+        if free_after < 10.0:  # 如果可用显存少于10GB就有问题
+            print(f"   ⚠️ 警告：可用显存过少！")
             
-        best_val_mae = train(config, printnet=False, trial=trial)  # 传递trial对象用于剪枝
+    try:
+        # 试验开始前清理显存
+        gpu_manager.safe_cleanup(force=False)
+        
+        # 更保守的超参数范围
+        config.lr = trial.suggest_float("lr", 0.0005, 0.002, log=True)
+        config.dropout_rate = trial.suggest_float("dropout_rate", 0.05, 0.18)
+        
+        weight_decay = trial.suggest_float("weight_decay", 1e-5, 8e-5, log=True)
+        config.optimizer_args = config.optimizer_args.copy()
+        config.optimizer_args['weight_decay'] = weight_decay
+        
+        config.firstUpdateLayers = trial.suggest_categorical("firstUpdateLayers", [3, 4, 5])
+        config.secondUpdateLayers = trial.suggest_categorical("secondUpdateLayers", [3, 4, 5])
+        
+        # 🔧 更安全的参数范围
+        config.hidden_features = trial.suggest_categorical("hidden_features", [96, 128, 160])  # 移除192, 224
+        config.batch_size = trial.suggest_categorical("batch_size", [48, 64, 96])  # 移除128, 160
+        
+        print("\n" + "="*60)
+        print(f"🚀 Starting Trial #{trial.number} (Memory Safe)")
+        print("  Parameters:")
+        for key, value in trial.params.items():
+            print(f"    - {key}: {value}")
+        print("="*60 + "\n")
+        
+        config.log_enable = False
+        trial_name = f"trial_{trial.number}"
+        config.output_dir = os.path.join(base_config.output_dir, trial_name)
+        if not os.path.exists(config.output_dir):
+            os.makedirs(config.output_dir)
+        
+        best_val_mae = train(config, printnet=False, trial=trial)
         
         print(f"\n🏁 Trial #{trial.number} completed!")
         print(f"   Result: {best_val_mae:.6f}")
         print(f"   Current best: {trial.study.best_value:.6f}" if trial.study.best_value else "   First trial")
         
-        # 显示GPU内存使用情况
-        if torch.cuda.is_available():
-            memory_allocated = torch.cuda.memory_allocated() / 1e9
-            memory_cached = torch.cuda.memory_reserved() / 1e9
-            print(f"   GPU Memory: {memory_allocated:.2f}GB allocated, {memory_cached:.2f}GB cached")
-        
-        print("="*60)
-        
         return best_val_mae
+        
     except optuna.exceptions.TrialPruned:
-        # 处理剪枝异常
         print(f"\n✂️  Trial #{trial.number} pruned!")
-        print(f"   Reason: Performance not promising, stopped early")
+        gpu_manager.safe_cleanup(force=True)
+        raise
         
-        # 清理GPU内存
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        
-        print("="*60)
-        raise  # 重新抛出，让Optuna处理
     except torch.cuda.OutOfMemoryError as e:
-        # 处理GPU内存不足
-        print(f"\n💥 Trial #{trial.number} failed: GPU Out of Memory")
-        print(f"   建议：减少batch_size或hidden_features")
-        print(f"   当前配置：batch_size={config.batch_size}, hidden_features={config.hidden_features}")
-        
-        # 强制清理GPU内存
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        
-        print("="*60)
-        return float('inf')  # 返回一个很大的值表示失败
-    except Exception as e:
-        print(f"❌ Trial {trial.number} failed with error: {e}")
-        
-        # 清理GPU内存
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        
-        print("="*60)
+        print(f"\n💥 Trial #{trial.number} - GPU OOM")
+        print(f"   配置：batch_size={config.batch_size}, hidden_features={config.hidden_features}")
+        gpu_manager.safe_cleanup(force=True)
         return float('inf')
+        
+    except Exception as e:
+        print(f"❌ Trial {trial.number} failed: {e}")
+        gpu_manager.safe_cleanup(force=True)
+        return float('inf')
+        
+    finally:
+        gpu_manager.safe_cleanup(force=False)
+        print("="*60)
 
 # 交叉验证训练函数，用于更可靠的模型性能评估
 def train_CV(config):

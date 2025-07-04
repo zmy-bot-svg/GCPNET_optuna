@@ -243,7 +243,7 @@ class KerasModel(torch.nn.Module):
     # 加载检查点的方法
     def load_ckpt(self, ckpt_path='checkpoint.pt'):
         # 加载保存的模型权重（weights_only=False允许加载完整模型）
-        self.net= torch.load(ckpt_path, weights_only=False)  #修改过，之前self.net= torch.load(ckpt_path)
+        self.net= torch.load(ckpt_path, weights_only=False)  #修改过，之前self.net= torch.load(ckpt_path, weights_only=False)
         # 标记不是从零开始训练
         self.from_scratch = False
 
@@ -441,7 +441,7 @@ class KerasModel(torch.nn.Module):
         
             # 解包模型并加载最佳权重
             self.net = self.accelerator.unwrap_model(self.net)
-            self.net = torch.load(ckpt_path)
+            self.net = torch.load(ckpt_path, weights_only=False)
             return dfhistory
 
         
