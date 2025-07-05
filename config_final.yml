@@ -1,0 +1,64 @@
+# 🚀 最终模型训练配置 (基于Trial #60的最优参数)
+project_name: "GCPNet_Final_Training"
+net: "GCPNet"
+output_dir: "./output_final"
+self_loop: True
+n_neighbors: 12
+debug: False
+
+netAttributes:
+  firstUpdateLayers: 3                  # 🔴 Trial #60 参数
+  secondUpdateLayers: 4                 # 🔴 Trial #60 参数
+  atom_input_features: 105
+  edge_input_features: 50
+  triplet_input_features: 40
+  embedding_features: 64
+  hidden_features: 96                   # 🔴 Trial #60 参数
+  output_features: 1
+  min_edge_distance: 0.0
+  max_edge_distance: 8.0
+  link: "identity"
+  batch_size: 48                        # 🔴 Trial #60 参数
+  num_workers: 6
+  dropout_rate: 0.05011795423600582     # 🔴 Trial #60 参数
+
+hyperParameters:
+  lr: 0.0006400597319432715             # 🔴 Trial #60 参数
+  optimizer: "AdamW"
+  optimizer_args:
+    weight_decay: 0.00043060334650808985 # 🔴 Trial #60 参数
+  scheduler: "ReduceLROnPlateau"
+  scheduler_args:
+    mode: "min"
+    factor: 0.8                         # 🔧 更温和的学习率衰减
+    patience: 15                        # 🔧 适中的学习率调度耐心
+    min_lr: 1.0e-7                      # 🔧 更低的最小学习率
+    threshold: 0.0001                   # 🔧 更严格的改善阈值
+  seed: 3186                            # 🔧 使用Trial #60的种子(666+60*42)
+  epochs: 500                           # 🔧 论文标准epochs
+  patience: 50                          # 🔧 早停耐心值(约10%的epochs)
+
+data:
+  points: all
+  dataset_path: './data'
+  dataset_name: 'jarvis_fe_15k'
+  target_name: 'formation_energy_peratom'
+  pin_memory: True
+  num_folds: 5
+
+predict:
+  model_path: 'model.pt'
+  output_path: 'output.csv'
+
+visualize_args:
+  perplexity: 50
+  early_exaggeration: 12
+  learning_rate: 300
+  n_iter: 5000
+  verbose: 1
+  random_state: 42
+
+wandb:
+  log_enable: False                      # 🔧 启用wandb记录最终训练
+  sweep_count: 1
+  entity: "1548532425-null"
