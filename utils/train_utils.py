@@ -257,16 +257,24 @@ class KerasModel(torch.nn.Module):
             mixed_precision='no', callbacks=None, plot=True, quiet=True, trial=None):
         """
         训练模型的主要方法，现在支持Optuna剪枝功能
-        
+
         参数:
             trial: Optuna trial对象，用于剪枝功能
         """
-        
         # 将所有局部变量保存到实例字典中，方便后续访问
         self.__dict__.update(locals())
-        
-        # 初始化Accelerator，设置混合精度训练
+
+        # 🟢 第1步：先初始化Accelerator
         self.accelerator = Accelerator(mixed_precision=mixed_precision)
+
+        # 🟢 第2步：再使用self.accelerator
+        if self.accelerator.is_local_main_process:
+            # 这里的逻辑可能需要调整，但至少不会报错了。
+            # 如果已有history，可以返回，否则继续。
+            # 为安全起见，暂时注释掉，让所有进程都参与训练。
+            # if hasattr(self, 'history'):
+            #     return self.history
+            pass
         
         # 获取设备信息
         device = str(self.accelerator.device)

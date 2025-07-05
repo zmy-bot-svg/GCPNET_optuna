@@ -22,7 +22,7 @@ netAttributes:
   dropout_rate: 0.1
 
 hyperParameters:
-  lr: 0.001
+  lr: 0.1
   optimizer: "AdamW"
   optimizer_args:
     weight_decay: 5.0e-5
@@ -34,7 +34,7 @@ hyperParameters:
     min_lr: 1.0e-6
     threshold: 0.0002
   seed: 666
-  epochs: 3
+  epochs: 1
   patience: 2
 
 data:
