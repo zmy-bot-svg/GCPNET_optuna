@@ -1,0 +1,115 @@
+# 🚀 针对RTX 4090服务器优化的GCPNet配置
+project_name: "GCPNet_4090_hyperopt"
+net: "GCPNet"
+output_dir: "./output_4090"
+self_loop: True
+n_neighbors: 12
+debug: False
+
+netAttributes:
+  firstUpdateLayers: 4
+  secondUpdateLayers: 4
+  atom_input_features: 105
+  edge_input_features: 50
+  triplet_input_features: 40
+  embedding_features: 64
+  hidden_features: 128                 # 基准值，会被超参数搜索覆盖
+  output_features: 1
+  min_edge_distance: 0.0
+  max_edge_distance: 8.0
+  link: "identity"
+  batch_size: 64                       # 基准值，会被超参数搜索覆盖
+  num_workers: 6                       # 🔧 优化：增加到6（4090服务器通常有16核+）
+  dropout_rate: 0.1                    # 基准值，会被超参数搜索覆盖
+
+hyperParameters:
+  lr: 0.001                           # 基准值，会被超参数搜索覆盖
+  optimizer: "AdamW"
+  optimizer_args:
+    weight_decay: 5.0e-5              # 基准值，会被超参数搜索覆盖
+  scheduler: "ReduceLROnPlateau"
+  scheduler_args:
+    mode: "min"
+    factor: 0.5
+    patience: 8                       # 🔧 优化：降低patience（从10到8）
+    min_lr: 1.0e-6
+    threshold: 0.0002
+  seed: 666
+  epochs: 30                          # 🔧 优化：降低epochs（从100到30）更适合超参数搜索
+  patience: 15                        # 🔧 优化：降低patience（从25到15）
+
+data:
+  points: all
+  dataset_path: './data'
+  dataset_name: 'jarvis_fe_15k'
+  target_name: 'formation_energy_peratom'
+  pin_memory: True                    # 4090显存大，保持启用
+  num_folds: 5
+
+predict:
+  model_path: 'model.pt'
+  output_path: 'output.csv'
+
+visualize_args:
+  perplexity: 50
+  early_exaggeration: 12
+  learning_rate: 300
+  n_iter: 5000
+  verbose: 1
+  random_state: 42
+
+# 🚀 优化后的Optuna超参数搜索配置
+optuna:
+  n_trials: 100                       # 🔧 优化：增加到100次（4090快）
+  study_name: "GCPNet_4090_hyperopt"
+  
+  # 🔧 新增：搜索空间配置（未来扩展用）
+  search_space:
+    lr:
+      type: "float"
+      low: 0.0005
+      high: 0.005                     # 🔧 扩大学习率搜索范围
+      log: true
+    dropout_rate:
+      type: "float" 
+      low: 0.05
+      high: 0.3                       # 🔧 扩大dropout搜索范围
+    weight_decay:
+      type: "float"
+      low: 1.0e-6
+      high: 1.0e-3
+      log: true
+    batch_size:
+      type: "categorical"
+      choices: [48, 64, 96, 128]      # 🔧 4090可以支持更大batch
+    hidden_features:
+      type: "categorical"
+      choices: [96, 128, 160, 192, 224] # 🔧 增加更大的隐藏层选项
+  
+  # 🔧 新增：剪枝配置
+  pruning:
+    enable: true
+    n_startup_trials: 5               # 前5个trial不剪枝
+    n_warmup_steps: 5                 # 前5个epoch不剪枝
+    interval_steps: 2                 # 每2个epoch检查一次
+  
+  # 🔧 新增：续传配置
+  resume:
+    enable: true
+    auto_detect: true                 # 自动检测最新数据库
+    
+wandb:
+  log_enable: False                   # 超参数搜索时关闭wandb
+  sweep_count: 100                    # 对应n_trials
+  entity: "1548532425-null"
+
+# 🔧 新增：系统优化配置
+system:
+  gpu:
+    memory_fraction: 0.9              # 使用90%的GPU内存
+    allow_growth: true                # 允许动态增长
+  cpu:
+    max_workers_ratio: 0.5            # 使用50%的CPU核心
+  monitoring:
+    log_interval: 10                  # 每10个trial记录一次系统状态
+    save_interval: 5                  # 每5个trial保存一次检查点
