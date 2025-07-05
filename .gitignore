@@ -63,7 +63,7 @@ datasets/
 
 # 输出和日志文件
 output*/
-logs/
+#logs/
 runs/
 *.log
 *.out
